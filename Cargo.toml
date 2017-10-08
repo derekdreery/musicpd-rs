@@ -5,7 +5,11 @@ authors = ["Richard Dodd <richard.o.dodd@gmail.com>"]
 
 [dependencies]
 nom = "*"
+chrono = "*"
 semver = "*"
 futures = "*"
 tokio-core = "*"
 
+[features]
+default = [ ]
+verbose-errors = [ "nom/verbose-errors" ]

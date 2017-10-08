@@ -1,20 +1,14 @@
 // This example gets status info from mpd
 extern crate musicpd;
-extern crate futures;
-extern crate tokio_core;
 
+use musicpd::client::Client;
+use musicpd::protocol::command;
 
-use tokio_core::reactor::Core;
-use musicpd::client::{TokioMpc, TokioMpcNew, default_address};
-use futures::Future;
 
 fn main() {
-    let addr = default_address();
-    let mut core = Core::new().unwrap();
-    let c: TokioMpcNew = TokioMpc::new(&addr, &core.handle());
-    c.and_then(|client| {
-        println!("test");
-    });
-    core.run(c).unwrap();
+    let mut c = Client::connect("127.0.0.1:6600").unwrap();
+    println!("{:?}", c.version());
+    let mut list = command::CommandList::new();
+    list.push(command::Command::Status);
+    println!("{:?}", c.run_commands(list));
 }
-
